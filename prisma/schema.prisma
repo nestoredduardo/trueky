@@ -6,18 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
   // Further reading:
   // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
   // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
-}
-
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
@@ -27,12 +21,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? // @db.Text
-  access_token      String? // @db.Text
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? // @db.Text
+  id_token          String? @db.Text
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -55,6 +49,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  products      Product[]
 }
 
 model VerificationToken {
@@ -63,4 +58,30 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  image       String
+  user_id     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [user_id], references: [id])
+  product_one Match[]  @relation("product_one")
+  product_two Match[]  @relation("product_two")
+}
+
+model Match {
+  id               String   @id @default(cuid())
+  product_one_id   String
+  product_two_id   String
+  product_one_like Boolean
+  product_two_like Boolean
+  match            Boolean
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  product_one      Product  @relation("product_one", fields: [product_one_id], references: [id])
+  product_two      Product  @relation("product_two", fields: [product_two_id], references: [id])
 }
