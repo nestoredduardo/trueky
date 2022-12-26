@@ -3,9 +3,11 @@ import { Button } from "@mantine/core";
 
 // Components
 import { Header, UserInfo } from "@/components";
+import { NewProduct } from "@/modules/home/components";
 
 // Utils
 import { getServerAuthSession } from "@/server/common/get-server-auth-session";
+import { prisma } from "@/server/db/client";
 
 // Types
 import type {
@@ -14,9 +16,11 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import type { Session } from "next-auth";
+import type { Product } from "@prisma/client";
 
 interface HomeProps {
   user: Session["user"];
+  userProducts: Array<Product>;
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (
@@ -33,9 +37,16 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
     };
   }
 
+  const userProducts = await prisma.product.findMany({
+    where: {
+      user_id: session.user.id,
+    },
+  });
+
   return {
     props: {
       user: session.user,
+      userProducts: userProducts,
     },
   };
 };
@@ -43,7 +54,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
 const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   props
 ) => {
-  const { user } = props;
+  const { user, userProducts } = props;
 
   return (
     <>
@@ -59,6 +70,10 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           Cerrar sesión
         </Button>
       </Header>
+
+      <main className="flex flex-col items-center justify-center">
+        {userProducts.length === 0 ? <NewProduct /> : null}
+      </main>
     </>
   );
 };
