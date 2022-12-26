@@ -19,7 +19,11 @@ const AuthenticationForm: NextPage = (props: PaperProps) => {
             color="gray"
             radius="xl"
             size="lg"
-            onClick={() => signIn("google")}
+            onClick={() =>
+              signIn("google", {
+                callbackUrl: "/home",
+              })
+            }
           />
         </Group>
       </Paper>
