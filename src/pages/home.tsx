@@ -59,16 +59,18 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   return (
     <>
       <Header>
-        <UserInfo image={user.image} name={user.name} email={user.email} />
-        <Button
-          onClick={() =>
-            signOut({
-              callbackUrl: "/",
-            })
-          }
-        >
-          Cerrar sesión
-        </Button>
+        <div className="mb-4 flex flex-col items-center gap-2 sm:mb-0 sm:flex-row">
+          <UserInfo image={user.image} name={user.name} email={user.email} />
+          <Button
+            onClick={() =>
+              signOut({
+                callbackUrl: "/",
+              })
+            }
+          >
+            Cerrar sesión
+          </Button>
+        </div>
       </Header>
 
       <main className="flex flex-col items-center justify-center">

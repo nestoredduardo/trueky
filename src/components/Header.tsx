@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
   const { classes } = useStyles();
 
   return (
-    <HeaderMantine height={HEADER_HEIGHT} mb={120}>
+    <HeaderMantine height={HEADER_HEIGHT} mb={24}>
       <Container>
         <div className={classes.inner}>
           <div className="flex items-center gap-2">
