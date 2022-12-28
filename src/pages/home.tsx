@@ -20,7 +20,7 @@ import type { Product } from "@prisma/client";
 
 interface HomeProps {
   user: Session["user"];
-  userProducts: Array<Product>;
+  userProducts: Array<Omit<Product, "createdAt" | "updatedAt" | "user_id">>;
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (
@@ -40,6 +40,12 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
   const userProducts = await prisma.product.findMany({
     where: {
       user_id: session.user.id,
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      images: true,
     },
   });
 
@@ -74,6 +80,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
       </Header>
 
       <main className="flex flex-col items-center justify-center">
+        <NewProduct />
         {userProducts.length === 0 ? <NewProduct /> : null}
       </main>
     </>
