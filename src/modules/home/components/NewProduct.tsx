@@ -24,6 +24,7 @@ export const NewProduct: React.FC = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Pick<CreateProductDTO, "name" | "description">>({
     resolver: zodResolver(
@@ -33,12 +34,15 @@ export const NewProduct: React.FC = () => {
 
   const handleDrop = (files: FileWithPath[]) => {
     setFiles((state) => [...state, ...files]);
+    setFileError(null);
   };
 
   const createProductMutation = trpc.products.create.useMutation({
     onSuccess: () => {
       setLoading(false);
       toast.success("Producto creado con éxito");
+      setFiles([]);
+      reset();
     },
     onError: () => {
       setLoading(false);
@@ -70,6 +74,7 @@ export const NewProduct: React.FC = () => {
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <TextInput
+          id="name"
           label="Nombre del producto"
           placeholder="Ej. iPhone 12"
           {...register("name")}
@@ -77,6 +82,7 @@ export const NewProduct: React.FC = () => {
           description="El nombre de tu producto"
         />
         <TextInput
+          id="description"
           label="Descripción"
           placeholder="Ej. iPhone 12"
           {...register("description")}

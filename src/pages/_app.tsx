@@ -2,6 +2,7 @@ import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { MantineProvider } from "@mantine/core";
+import { Toaster } from "react-hot-toast";
 
 import { trpc } from "../lib/trpc";
 
@@ -21,6 +22,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           colorScheme: "light",
         }}
       >
+        <Toaster />
         <Component {...pageProps} />
       </MantineProvider>
     </SessionProvider>
