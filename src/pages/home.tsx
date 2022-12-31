@@ -2,8 +2,8 @@ import { signOut } from "next-auth/react";
 import { Button } from "@mantine/core";
 
 // Components
-import { Header, UserInfo } from "@/components";
-import { NewProduct } from "@/modules/home/components";
+import { Header, UserInfo, NonSSRWrapper } from "@/components";
+import { NewProduct, Match } from "@/modules/home/components";
 
 // Utils
 import { getServerAuthSession } from "@/server/common/get-server-auth-session";
@@ -79,9 +79,14 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         </div>
       </Header>
 
-      <main className="flex flex-col items-center justify-center">
-        <NewProduct />
-        {userProducts.length === 0 ? <NewProduct /> : null}
+      <main className="flex flex-col items-center justify-center px-4">
+        {userProducts.length === 0 ? (
+          <NewProduct />
+        ) : (
+          <NonSSRWrapper>
+            <Match />
+          </NonSSRWrapper>
+        )}
       </main>
     </>
   );

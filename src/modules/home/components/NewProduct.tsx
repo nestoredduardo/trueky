@@ -69,7 +69,7 @@ export const NewProduct: React.FC = () => {
   };
 
   return (
-    <div className="mb-6 px-4">
+    <div className="mb-6 ">
       <h1 className="mb-6">Agrega un producto para hacer trueque</h1>
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
