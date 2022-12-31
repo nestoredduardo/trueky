@@ -3,8 +3,18 @@ import { Text, Paper, Group, Button } from "@mantine/core";
 import type { PaperProps } from "@mantine/core";
 import { GoogleIcon } from "@/modules/auth/GoogleIcon";
 import type { NextPage } from "next";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const AuthenticationForm: NextPage = (props: PaperProps) => {
+  const { data: session } = useSession();
+
+  const router = useRouter();
+
+  if (session) {
+    router.push("/home");
+  }
+
   return (
     <main className="flex h-screen items-center justify-center">
       <Paper className="max-w-sm" radius="md" p="xl" withBorder {...props}>

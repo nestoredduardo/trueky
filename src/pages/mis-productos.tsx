@@ -1,9 +1,8 @@
-// Components
 import { Layout, ProductCard } from "@/components";
 
 // Utils
-import { getServerAuthSession } from "@/server/common/get-server-auth-session";
 import { trpc } from "@/lib/trpc";
+import { getServerAuthSession } from "@/server/common/get-server-auth-session";
 
 // Types
 import type {
@@ -13,13 +12,13 @@ import type {
 } from "next";
 import type { Session } from "next-auth";
 
-interface HomeProps {
+interface MyProductsPageProps {
   user: Session["user"];
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async (
-  ctx
-) => {
+export const getServerSideProps: GetServerSideProps<
+  MyProductsPageProps
+> = async (ctx) => {
   const session = await getServerAuthSession(ctx);
 
   if (!session) {
@@ -38,34 +37,24 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
   };
 };
 
-const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
-  props
-) => {
+const MyProductsPage: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = (props) => {
   const { user } = props;
 
-  const { data, isLoading } = trpc.products.privateInfinite.useInfiniteQuery(
-    {
-      limit: 2,
-    },
-    {
-      getNextPageParam: (lastPage) => lastPage.data.nextCursor,
-    }
-  );
+  const { data, isLoading } = trpc.products.myProducts.useQuery();
 
   return (
     <Layout user={user}>
+      <h1 className="w-full text-left">Mis productos</h1>
       {isLoading ? <div>Loading...</div> : null}
       <div className="flex flex-wrap justify-center gap-4">
-        {data?.pages.map((page) => (
-          <>
-            {page.data.products.map((product) => (
-              <ProductCard key={product.id} {...product} />
-            ))}
-          </>
+        {data?.data.map((product) => (
+          <ProductCard key={product.id} {...product} />
         ))}
       </div>
     </Layout>
   );
 };
 
-export default Home;
+export default MyProductsPage;

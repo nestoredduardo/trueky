@@ -62,7 +62,7 @@ const useStyles = createStyles((theme) => ({
     top: HEADER_HEIGHT,
     left: 0,
     right: 0,
-    zIndex: 0,
+    zIndex: 10,
     borderTopRightRadius: 0,
     borderTopLeftRadius: 0,
     borderTopWidth: 0,
@@ -86,7 +86,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
 
   return (
     <HeaderMantine height={HEADER_HEIGHT} mb={24}>
-      <Container>
+      <Container size={"lg"}>
         <div className={classes.inner}>
           <div className="flex items-center gap-2">
             <BsArrowLeftRight className="h-6 w-6 text-orange-400" />

@@ -30,6 +30,19 @@ export const productsRouter = router({
         data: product,
       };
     }),
+  myProducts: protectedProcedure.query(async ({ ctx }) => {
+    const products = await ctx.prisma.product.findMany({
+      where: {
+        user_id: ctx.session.user.id,
+      },
+    });
+
+    return {
+      status: 200,
+      message: "Productos obtenidos con éxito",
+      data: products,
+    };
+  }),
   privateInfinite: protectedProcedure
     .input(
       z.object({

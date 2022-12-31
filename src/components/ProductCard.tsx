@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { createStyles, Card, Text, Group, Button } from "@mantine/core";
+import { createStyles, Card, Text, Group } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -36,10 +36,11 @@ export interface ProductCardProps {
   images: string[];
   name: string;
   description: string;
+  callToAction?: React.ReactNode;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = (props) => {
-  const { images, name, description } = props;
+  const { images, name, description, callToAction } = props;
 
   const { classes } = useStyles();
 
@@ -82,7 +83,7 @@ export const ProductCard: React.FC<ProductCardProps> = (props) => {
       </Text>
 
       <Group position="apart" mt="md">
-        <Button radius="md">Interesado en hacer trueque</Button>
+        {callToAction}
       </Group>
     </Card>
   );
