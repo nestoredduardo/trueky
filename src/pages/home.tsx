@@ -1,3 +1,6 @@
+import { Button } from "@mantine/core";
+import toast from "react-hot-toast";
+
 // Components
 import { Layout, ProductCard } from "@/components";
 
@@ -45,12 +48,21 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
   const { data, isLoading } = trpc.products.privateInfinite.useInfiniteQuery(
     {
-      limit: 2,
+      limit: 50,
     },
     {
       getNextPageParam: (lastPage) => lastPage.data.nextCursor,
     }
   );
+
+  const doMatchMutation = trpc.match.create.useMutation({
+    onSuccess: () => {
+      toast.success("Se ha enviado tu solicitud");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   return (
     <Layout user={user}>
@@ -59,7 +71,22 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         {data?.pages.map((page) => (
           <>
             {page.data.products.map((product) => (
-              <ProductCard key={product.id} {...product} />
+              <ProductCard
+                key={product.id}
+                {...product}
+                callToAction={
+                  <Button
+                    color="blue"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      console.log("Clicked");
+                    }}
+                  >
+                    Me interesa
+                  </Button>
+                }
+              />
             ))}
           </>
         ))}
