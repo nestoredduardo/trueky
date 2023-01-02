@@ -1,8 +1,8 @@
 import { Layout, ProductCard } from "@/components";
 
 // Utils
-import { trpc } from "@/lib/trpc";
 import { getServerAuthSession } from "@/server/common/get-server-auth-session";
+import useUserProducts from "@/hooks/useUserProducts";
 
 // Types
 import type {
@@ -42,7 +42,7 @@ const MyProductsPage: NextPage<
 > = (props) => {
   const { user } = props;
 
-  const { data, isLoading } = trpc.products.myProducts.useQuery();
+  const { data, isLoading } = useUserProducts();
 
   return (
     <Layout user={user}>

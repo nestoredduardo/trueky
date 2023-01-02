@@ -3,3 +3,4 @@ export * from "./UserInfo";
 export { default as NonSSRWrapper } from "./NonSSRWrapper";
 export * from "./Layout";
 export * from "./ProductCard";
+export * from "./Modal";

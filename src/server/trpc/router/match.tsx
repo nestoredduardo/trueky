@@ -27,6 +27,27 @@ export const matchRouter = router({
       });
 
       if (existingMatch) {
+        // Validate if user one or two already liked the product
+        if (
+          existingMatch.product_one_id === input.proposed_product_id &&
+          existingMatch.product_one_like
+        ) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Ya le diste like a este producto",
+          });
+        }
+
+        if (
+          existingMatch.product_two_id === input.proposed_product_id &&
+          existingMatch.product_two_like
+        ) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Ya le diste like a este producto",
+          });
+        }
+
         const match = await ctx.prisma.match.update({
           where: {
             id: existingMatch.id,
