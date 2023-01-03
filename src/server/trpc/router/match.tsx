@@ -6,7 +6,6 @@ import { createMatchDTO } from "@/server/trpc/validations/match";
 import sendMail from "@/emails";
 import BasicEmail from "@/emails/Basic";
 
-// https://github.com/Deep-Codes/framer-tinder-cards/blob/main/package.json
 export const matchRouter = router({
   create: protectedProcedure
     .input(createMatchDTO)
@@ -140,4 +139,62 @@ export const matchRouter = router({
         };
       }
     }),
+  getMyMatch: protectedProcedure.query(async ({ ctx }) => {
+    const match = await ctx.prisma.match.findMany({
+      where: {
+        OR: [
+          {
+            product_one: {
+              user_id: ctx.session.user.id,
+            },
+          },
+          {
+            product_two: {
+              user_id: ctx.session.user.id,
+            },
+          },
+        ],
+      },
+      select: {
+        id: true,
+        product_one_id: true,
+        product_two_id: true,
+        product_one_like: true,
+        product_two_like: true,
+        match: true,
+        product_one: {
+          select: {
+            id: true,
+            name: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+          },
+        },
+        product_two: {
+          select: {
+            id: true,
+            name: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return {
+      status: 200,
+      message: "Match obtenido con éxito",
+      data: match,
+    };
+  }),
 });
