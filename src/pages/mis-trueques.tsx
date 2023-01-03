@@ -1,4 +1,4 @@
-import { Layout, ProductCard } from "@/components";
+import { Layout } from "@/components";
 
 // Utils
 import { getServerAuthSession } from "@/server/common/get-server-auth-session";
