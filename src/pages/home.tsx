@@ -3,6 +3,7 @@ import { Button } from "@mantine/core";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import classNames from "classnames";
+import { useRouter } from "next/router";
 
 // Components
 import { Layout, ProductCard, Modal } from "@/components";
@@ -51,11 +52,13 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 ) => {
   const { user } = props;
 
+  const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [proposedProductId, setProposedProductId] = useState<string | null>(
     null
   );
+
 
   const { data: userProducts, isLoading: loadingProducts } = useUserProducts();
 
@@ -136,6 +139,10 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             Elije qué productos de tu lista de productos te gustaría
             intercambiar
           </p>
+          {userProducts?.data.length === 0 ? <Button variant='outline' onClick={()=>{
+            setModalOpen(false)
+            router.push('/nuevo-producto')
+          }}>Agrega un producto para que puedas hacer trueque</Button>:null}
           <section className="flex flex-wrap gap-4">
             {loadingProducts ? <div>Loading...</div> : null}
             {userProducts?.data.map((product) => (
