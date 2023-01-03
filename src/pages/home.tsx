@@ -137,6 +137,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             intercambiar
           </p>
           <section className="flex flex-wrap gap-4">
+            {loadingProducts ? <div>Loading...</div> : null}
             {userProducts?.data.map((product) => (
               <button
                 key={product.id}
