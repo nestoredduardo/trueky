@@ -1,4 +1,8 @@
+import { useState } from "react";
+
+// Components
 import { Layout } from "@/components";
+import { TabControl } from "@/modules/match/components";
 
 // Utils
 import { getServerAuthSession } from "@/server/common/get-server-auth-session";
@@ -13,6 +17,7 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import type { Session } from "next-auth";
+import type { TabType } from "@/modules/match";
 
 interface MyMatchPageProps {
   user: Session["user"];
@@ -44,11 +49,16 @@ const MyMatchPage: NextPage<
 > = (props) => {
   const { user } = props;
 
+  const [tab, setTab] = useState<keyof typeof TabType>("liked");
+
   const { data, isLoading } = trpc.match.getMyMatch.useQuery();
 
   return (
     <Layout user={user}>
       <h1 className="w-full text-left">Mis trueques</h1>
+
+      <TabControl tab={tab} setTab={setTab} />
+
       {isLoading ? <div>Loading...</div> : null}
       <div className="flex flex-wrap justify-center gap-4">
         {data?.data.map((match) => (
