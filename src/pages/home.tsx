@@ -116,7 +116,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         setShowModal={setModalOpen}
         disableClose={doMatchMutation.isLoading}
       >
-        <div className="flex flex-col gap-4 rounded-lg bg-white px-4 py-6">
+        <div className="flex max-w-lg flex-col gap-4 rounded-lg bg-white px-4 py-6">
           <h1 className="text-2xl font-bold">
             ¿Estás interesado en {selectedProduct?.name}?
           </h1>
