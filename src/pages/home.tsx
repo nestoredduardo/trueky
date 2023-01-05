@@ -59,7 +59,6 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
     null
   );
 
-
   const { data: userProducts, isLoading: loadingProducts } = useUserProducts();
 
   const { data, isLoading } = trpc.products.privateInfinite.useInfiniteQuery(
@@ -139,10 +138,17 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             Elije qué productos de tu lista de productos te gustaría
             intercambiar
           </p>
-          {userProducts?.data.length === 0 ? <Button variant='outline' onClick={()=>{
-            setModalOpen(false)
-            router.push('/nuevo-producto')
-          }}>Agrega un producto para que puedas hacer trueque</Button>:null}
+          {userProducts?.data.length === 0 ? (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setModalOpen(false);
+                router.push("/nuevo-producto");
+              }}
+            >
+              Agrega un producto para que puedas hacer trueque
+            </Button>
+          ) : null}
           <section className="flex flex-wrap gap-4">
             {loadingProducts ? <div>Loading...</div> : null}
             {userProducts?.data.map((product) => (
@@ -180,10 +186,27 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             </strong>
           </p>
 
+          <div className="space-y-2 rounded-lg bg-gray-50 p-4 text-sm">
+            <div className="flex gap-2">
+              <p className="m-0">👋 </p>
+              <p className="m-0">
+                El envío del producto tiene un costo de 5 soles, el cual será
+                cobrado al momento de la entrega.
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <p className="m-0">🦜</p>
+              <p className="m-0">
+                Si estás de acuerdo, presiona el botón de abajo para enviar tu
+                solicitud.
+              </p>
+            </div>
+          </div>
+
           <Button
             color="blue"
             variant="outline"
-            size="sm"
+            size="md"
             disabled={
               proposedProductId === null || proposedProductId === undefined
             }
