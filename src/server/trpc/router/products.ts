@@ -60,6 +60,16 @@ export const productsRouter = router({
           NOT: {
             user_id: ctx.session.user.id,
           },
+          product_one: {
+            every: {
+              match: false,
+            },
+          },
+          product_two: {
+            every: {
+              match: false,
+            },
+          },
         },
         cursor: cursor ? { id: cursor } : undefined,
         orderBy: { id: "asc" },

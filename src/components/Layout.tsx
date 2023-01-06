@@ -32,6 +32,9 @@ export const Layout: React.FC<LayoutProps> = (props) => {
           >
             Mis productos
           </Button>
+          <Button variant="subtle" onClick={() => router.push("/mis-trueques")}>
+            Mis trueques
+          </Button>
           <Button
             variant="gradient"
             gradient={{ from: "orange", to: "red" }}

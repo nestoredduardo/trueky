@@ -3,8 +3,8 @@ import { trpc } from "@/lib/trpc";
 import { Dayjs } from "@/utils/Date";
 import { BarterCard } from "./BarterCard";
 
-export const MyLikes: React.FC = () => {
-  const { data, isLoading } = trpc.match.getMyLikes.useQuery();
+export const MyMatch: React.FC = () => {
+  const { data, isLoading } = trpc.match.getMyMatch.useQuery();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -29,7 +29,7 @@ export const MyLikes: React.FC = () => {
               like.product_two.images[0] || "/images/product.png"
             }
             right_product_name={like.product_two.name}
-            type="liked"
+            type="match"
           />
         );
       })}

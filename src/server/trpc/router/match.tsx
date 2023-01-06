@@ -199,6 +199,67 @@ export const matchRouter = router({
       data: myLikes,
     };
   }),
+  getLikesReceived: protectedProcedure.query(async ({ ctx }) => {
+    const likesReceived = await ctx.prisma.match.findMany({
+      where: {
+        product_two: {
+          user_id: ctx.session.user.id,
+        },
+        match: false,
+      },
+      select: {
+        id: true,
+        product_one_id: true,
+        product_two_id: true,
+        product_one_like: true,
+        product_two_like: true,
+        match: true,
+        updatedAt: true,
+        product_one: {
+          select: {
+            id: true,
+            name: true,
+            images: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              },
+            },
+          },
+        },
+        product_two: {
+          select: {
+            id: true,
+            name: true,
+            images: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!likesReceived)
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "No se pudo obtener tus likes",
+      });
+
+    return {
+      status: 200,
+      message: "Likes obtenidos con éxito",
+      data: likesReceived,
+    };
+  }),
   getMyMatch: protectedProcedure.query(async ({ ctx }) => {
     const match = await ctx.prisma.match.findMany({
       where: {
@@ -214,6 +275,7 @@ export const matchRouter = router({
             },
           },
         ],
+        match: true,
       },
       select: {
         id: true,
@@ -222,15 +284,18 @@ export const matchRouter = router({
         product_one_like: true,
         product_two_like: true,
         match: true,
+        updatedAt: true,
         product_one: {
           select: {
             id: true,
             name: true,
+            images: true,
             user: {
               select: {
                 id: true,
                 name: true,
                 email: true,
+                image: true,
               },
             },
           },
@@ -239,11 +304,13 @@ export const matchRouter = router({
           select: {
             id: true,
             name: true,
+            images: true,
             user: {
               select: {
                 id: true,
                 name: true,
                 email: true,
+                image: true,
               },
             },
           },
