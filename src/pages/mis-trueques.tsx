@@ -2,7 +2,7 @@ import { useState } from "react";
 
 // Components
 import { Layout } from "@/components";
-import { TabControl } from "@/modules/match/components";
+import { TabControl, MyLikes } from "@/modules/match/components";
 
 // Utils
 import { getServerAuthSession } from "@/server/common/get-server-auth-session";
@@ -54,17 +54,19 @@ const MyMatchPage: NextPage<
   const { data, isLoading } = trpc.match.getMyMatch.useQuery();
 
   return (
-    <Layout user={user}>
+    <Layout user={user} containerSize="sm">
       <h1 className="w-full text-left">Mis trueques</h1>
 
       <TabControl tab={tab} setTab={setTab} />
 
       {isLoading ? <div>Loading...</div> : null}
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="mt-6 flex flex-wrap justify-center gap-4">
         {data?.data.map((match) => (
           <div key={match.id}></div>
         ))}
       </div>
+
+      {tab === "liked" ? <MyLikes /> : null}
     </Layout>
   );
 };

@@ -6,11 +6,11 @@ export enum TabType {
 
 export const tabData = [
   {
-    label: "Likes enviados",
+    label: "🧡 Enviados",
     value: TabType.liked,
   },
   {
-    label: "Likes recibidos",
+    label: "🧡 Recibidos",
     value: TabType.received,
   },
   {

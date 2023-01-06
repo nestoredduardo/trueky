@@ -10,10 +10,12 @@ import type { Session } from "next-auth";
 export interface LayoutProps {
   user: Session["user"];
   children: React.ReactNode;
+
+  containerSize?: "sm" | "md" | "lg" | "xl";
 }
 
 export const Layout: React.FC<LayoutProps> = (props) => {
-  const { children, user } = props;
+  const { children, user, containerSize = "lg" } = props;
 
   const router = useRouter();
 
@@ -51,7 +53,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         </div>
       </Header>
 
-      <Container size={"lg"}>{children}</Container>
+      <Container size={containerSize}>{children}</Container>
     </>
   );
 };

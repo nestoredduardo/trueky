@@ -139,6 +139,66 @@ export const matchRouter = router({
         };
       }
     }),
+  getMyLikes: protectedProcedure.query(async ({ ctx }) => {
+    const myLikes = await ctx.prisma.match.findMany({
+      where: {
+        product_one: {
+          user_id: ctx.session.user.id,
+        },
+      },
+      select: {
+        id: true,
+        product_one_id: true,
+        product_two_id: true,
+        product_one_like: true,
+        product_two_like: true,
+        match: true,
+        updatedAt: true,
+        product_one: {
+          select: {
+            id: true,
+            name: true,
+            images: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              },
+            },
+          },
+        },
+        product_two: {
+          select: {
+            id: true,
+            name: true,
+            images: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!myLikes)
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "No se pudo obtener tus likes",
+      });
+
+    return {
+      status: 200,
+      message: "Likes obtenidos con éxito",
+      data: myLikes,
+    };
+  }),
   getMyMatch: protectedProcedure.query(async ({ ctx }) => {
     const match = await ctx.prisma.match.findMany({
       where: {
