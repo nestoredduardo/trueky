@@ -12,7 +12,7 @@ const AuthenticationForm: NextPage = (props: PaperProps) => {
   const router = useRouter();
 
   if (session) {
-    router.push("/home");
+    router.push("/explorar");
   }
 
   return (
@@ -31,7 +31,7 @@ const AuthenticationForm: NextPage = (props: PaperProps) => {
             size="lg"
             onClick={() =>
               signIn("google", {
-                callbackUrl: "/home",
+                callbackUrl: "/explorar",
               })
             }
           />

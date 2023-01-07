@@ -145,6 +145,7 @@ export const matchRouter = router({
         product_one: {
           user_id: ctx.session.user.id,
         },
+        match: false,
       },
       select: {
         id: true,

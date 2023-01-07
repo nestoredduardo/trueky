@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TextInput, Text, Button } from "@mantine/core";
+import { TextInput, Text, Button, Textarea } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
@@ -66,10 +66,16 @@ const NewProductPage: NextPage<
     handleSubmit,
     reset,
     formState: { errors },
+    control,
   } = useForm<Pick<CreateProductDTO, "name" | "description">>({
     resolver: zodResolver(
       createProductDTO.pick({ name: true, description: true })
     ),
+  });
+
+  const descriptionContent = useWatch({
+    control,
+    name: "description",
   });
 
   const handleDrop = (files: FileWithPath[]) => {
@@ -123,14 +129,22 @@ const NewProductPage: NextPage<
             error={errors.name?.message}
             description="El nombre de tu producto"
           />
-          <TextInput
-            id="description"
-            label="Descripción"
-            placeholder="Ej. iPhone 12"
-            {...register("description")}
-            error={errors.description?.message}
-            description="Describe tu producto para que los usuarios puedan saber más sobre él"
-          />
+
+          <div className="space-y-1">
+            <Textarea
+              id="description"
+              label="Descripción"
+              placeholder="Ej. iPhone 12"
+              {...register("description")}
+              maxLength={280}
+              error={errors.description?.message}
+              description="Describe tu producto para que los usuarios puedan saber más sobre él"
+            />
+            <span className="text-sm text-gray-500">
+              {descriptionContent ? descriptionContent.length : 0}
+              /280
+            </span>
+          </div>
 
           <div>
             <Text fw={500} fz="sm" className="mb-1">

@@ -23,8 +23,8 @@ export const Layout: React.FC<LayoutProps> = (props) => {
     <>
       <Header>
         <div className="mb-4 flex flex-col items-center gap-2 sm:mb-0 sm:flex-row">
-          <Button variant="subtle" onClick={() => router.push("/home")}>
-            Descubre
+          <Button variant="subtle" onClick={() => router.push("/explorar")}>
+            Explorar
           </Button>
           <Button
             variant="subtle"
