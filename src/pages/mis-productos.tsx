@@ -1,4 +1,5 @@
 import { Layout, ProductCard } from "@/components";
+import { Button } from "@mantine/core";
 
 // Utils
 import { getServerAuthSession } from "@/server/common/get-server-auth-session";
@@ -50,7 +51,20 @@ const MyProductsPage: NextPage<
       {isLoading ? <div>Loading...</div> : null}
       <div className="flex flex-wrap justify-center gap-4">
         {data?.data.map((product) => (
-          <ProductCard key={product.id} {...product} />
+          <ProductCard
+            key={product.id}
+            {...product}
+            callToAction={
+              <div className="flex w-full gap-4">
+                <Button fullWidth variant="subtle" color="red">
+                  Eliminar
+                </Button>
+                <Button fullWidth variant="outline">
+                  Editar
+                </Button>
+              </div>
+            }
+          />
         ))}
       </div>
     </Layout>
