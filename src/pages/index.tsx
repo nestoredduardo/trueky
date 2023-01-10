@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { BsArrowLeftRight } from "react-icons/bs";
-import { Button, Container } from "@mantine/core";
+import { Container } from "@mantine/core";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -16,35 +16,37 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container size="lg">
+      <Container size="md">
         <div className="flex items-center gap-2">
           <BsArrowLeftRight className="h-6 w-6 text-orange-400" />
           <h1 className="font-bold text-orange-400">Trueky</h1>
         </div>
       </Container>
-      <main className="px-4">
-        <h1 className="max-w-3xl text-center text-2xl">
+      <Container size="md" className="flex flex-col">
+        <h1 className="mx-auto max-w-3xl text-center text-3xl">
           Consigue las cosas que quieres pagando con lo que ya tienes
         </h1>
 
-        <section>
-          <article className="shadow-[5px_5px_0px_0px_rgba(109,40,217)]">
+        <section className="grid gap-4 md:grid-cols-3">
+          <article className="rounded-lg bg-gray-50 p-4 shadow-[5px_5px_0px_0px_rgba(240,118,164)]">
             Publica tus productos a intercambiar
           </article>
-          <article>Encuentra productos que te interesen</article>
-          <article>
+          <article className="rounded-lg bg-gray-50 p-4 shadow-[5px_5px_0px_0px_rgba(240,118,164)]">
+            Encuentra productos que te interesen
+          </article>
+          <article className="rounded-lg bg-gray-50 p-4 shadow-[5px_5px_0px_0px_rgba(240,118,164)]">
             Si alguien más tiene interés en tus productos y hay coincidencia con
             lo que quieres. Tienes un trueque{" "}
           </article>
         </section>
 
         <button
-          className="w-full cursor-pointer rounded-full border-none bg-gradient-to-tr from-primary to-secondary py-4 px-12 text-lg font-bold text-white transition-all hover:scale-105 active:scale-100"
+          className="my-8 mx-auto w-full max-w-md cursor-pointer rounded-full border-none bg-gradient-to-tr from-primary to-secondary py-4 px-12 text-lg font-bold text-white transition-all hover:scale-105 active:scale-100"
           onClick={() => router.push("/ingresar")}
         >
           Ingresar
         </button>
-      </main>
+      </Container>
     </>
   );
 };
