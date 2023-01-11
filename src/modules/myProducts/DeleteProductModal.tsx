@@ -24,6 +24,7 @@ export const DeleteProductModal: React.FC<DeleteProductModalProps> = (
   const deleteProductMutation = trpc.products.delete.useMutation({
     onSuccess: (data) => {
       toast.success(data.message);
+      setIsOpen(false);
       refetch();
     },
     onError: (error) => {

@@ -97,6 +97,26 @@ export const productsRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const productHasMatches = await ctx.prisma.match.findMany({
+        where: {
+          OR: [
+            {
+              product_one_id: input.id,
+            },
+            {
+              product_two_id: input.id,
+            },
+          ],
+          match: true,
+        },
+      });
+
+      if (productHasMatches.length > 0)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "No se puede eliminar un producto que ya tiene trueques",
+        });
+
       const product = await ctx.prisma.product.delete({
         where: {
           id: input.id,

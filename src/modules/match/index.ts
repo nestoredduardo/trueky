@@ -14,7 +14,7 @@ export const tabData = [
     value: TabType.received,
   },
   {
-    label: "Matches",
+    label: "Trueques",
     value: TabType.match,
   },
 ];
