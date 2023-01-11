@@ -29,7 +29,6 @@
     "@trpc/next": "^10.0.0",
     "@trpc/react-query": "^10.0.0",
     "@trpc/server": "^10.0.0",
-    "aws-sdk": "^2.1284.0",
     "dayjs": "^1.11.7",
     "embla-carousel-react": "^7.0.5",
     "firebase": "^9.15.0",

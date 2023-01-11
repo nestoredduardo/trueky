@@ -90,4 +90,29 @@ export const productsRouter = router({
         },
       };
     }),
+  delete: protectedProcedure
+    .input(
+      z.object({
+        id: z.string({ required_error: "El id del producto es requerido" }),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const product = await ctx.prisma.product.delete({
+        where: {
+          id: input.id,
+        },
+      });
+
+      if (!product)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "No se pudo eliminar el producto",
+        });
+
+      return {
+        status: 200,
+        message: "Producto eliminado con éxito",
+        data: product,
+      };
+    }),
 });
