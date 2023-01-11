@@ -47,7 +47,6 @@ const MyProductsPage: NextPage<
 > = (props) => {
   const { user } = props;
 
-  const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [product, setProduct] = useState<Product | null>(null);
 
@@ -64,7 +63,7 @@ const MyProductsPage: NextPage<
               key={product.id}
               {...product}
               callToAction={
-                <div className="flex w-full gap-4">
+                <div className="flex gap-4">
                   <Button
                     fullWidth
                     variant="subtle"
@@ -75,9 +74,6 @@ const MyProductsPage: NextPage<
                     }}
                   >
                     Eliminar
-                  </Button>
-                  <Button fullWidth variant="outline">
-                    Editar
                   </Button>
                 </div>
               }
