@@ -1,12 +1,19 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 import { BsArrowLeftRight } from "react-icons/bs";
 import { Container } from "@mantine/core";
 
+import mixpanel from "@/lib/mixpanel";
+
 const Home: NextPage = () => {
   const router = useRouter();
+
+  useEffect(() => {
+    mixpanel.track("Landing Hit");
+  }, []);
 
   return (
     <>

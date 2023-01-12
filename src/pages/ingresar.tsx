@@ -6,12 +6,19 @@ import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
+import mixpanel from "@/lib/mixpanel";
+
 const AuthenticationForm: NextPage = (props: PaperProps) => {
   const { data: session } = useSession();
 
   const router = useRouter();
 
   if (session) {
+    mixpanel.identify(session.user.id);
+    mixpanel.people.set_once({
+      $email: session.user.email,
+      $name: session.user.name,
+    });
     router.push("/explorar");
   }
 

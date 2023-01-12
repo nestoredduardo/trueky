@@ -35,6 +35,7 @@
     "focus-trap-react": "^10.0.2",
     "framer-motion": "^8.1.3",
     "mailing-core": "^0.9.7",
+    "mixpanel-browser": "^2.45.0",
     "next": "13.0.2",
     "next-auth": "^4.18.3",
     "react": "18.2.0",
@@ -47,6 +48,7 @@
     "zod": "^3.18.0"
   },
   "devDependencies": {
+    "@types/mixpanel-browser": "^2.38.0",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",

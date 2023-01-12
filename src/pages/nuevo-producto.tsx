@@ -5,6 +5,7 @@ import { TextInput, Text, Button, Textarea } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import mixpanel from "@/lib/mixpanel";
 
 // Components
 import { Layout } from "@/components";
@@ -86,6 +87,7 @@ const NewProductPage: NextPage<
   const createProductMutation = trpc.products.create.useMutation({
     onSuccess: () => {
       setLoading(false);
+      mixpanel.track("Product created");
       toast.success("Producto creado con éxito");
       setFiles([]);
       reset();
