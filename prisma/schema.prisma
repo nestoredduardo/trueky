@@ -61,16 +61,17 @@ model VerificationToken {
 }
 
 model Product {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   name        String
   description String
   images      String[]
   user_id     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [user_id], references: [id])
-  product_one Match[]  @relation("product_one")
-  product_two Match[]  @relation("product_two")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  status      ProductStatus @default(AVAILABLE)
+  user        User          @relation(fields: [user_id], references: [id])
+  product_one Match[]       @relation("product_one")
+  product_two Match[]       @relation("product_two")
 }
 
 model Match {
@@ -84,4 +85,9 @@ model Match {
   updatedAt        DateTime @updatedAt
   product_one      Product  @relation("product_one", fields: [product_one_id], references: [id])
   product_two      Product  @relation("product_two", fields: [product_two_id], references: [id])
+}
+
+enum ProductStatus {
+  AVAILABLE
+  MATCHED
 }

@@ -151,28 +151,34 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           ) : null}
           <section className="flex flex-wrap gap-4">
             {loadingProducts ? <div>Loading...</div> : null}
-            {userProducts?.data.map((product) => (
-              <button
-                key={product.id}
-                onClick={() => {
-                  setProposedProductId(product.id);
-                }}
-                className={classNames(
-                  proposedProductId === product.id
-                    ? "ring-2 ring-yellow-500 ring-offset-2 ring-offset-white"
-                    : "",
-                  "relative h-24 w-24 cursor-pointer overflow-hidden rounded-lg border-0 p-0 transition-all duration-300 hover:scale-105 active:scale-[0.99]"
-                )}
-              >
-                <Image
-                  src={product.images[0] || "/no-image.png"}
-                  alt={product.name}
-                  width={250}
-                  height={250}
-                  className="h-24 w-24 rounded-lg  object-cover"
-                />
-              </button>
-            ))}
+            {userProducts?.data.map((product) => {
+              if (product.status === "MATCHED") {
+                return null;
+              }
+
+              return (
+                <button
+                  key={product.id}
+                  onClick={() => {
+                    setProposedProductId(product.id);
+                  }}
+                  className={classNames(
+                    proposedProductId === product.id
+                      ? "ring-2 ring-yellow-500 ring-offset-2 ring-offset-white"
+                      : "",
+                    "relative h-24 w-24 cursor-pointer overflow-hidden rounded-lg border-0 p-0 transition-all duration-300 hover:scale-105 active:scale-[0.99]"
+                  )}
+                >
+                  <Image
+                    src={product.images[0] || "/no-image.png"}
+                    alt={product.name}
+                    width={250}
+                    height={250}
+                    className="h-24 w-24 rounded-lg  object-cover"
+                  />
+                </button>
+              );
+            })}
           </section>
 
           <p>

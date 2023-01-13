@@ -13,6 +13,7 @@ export interface BarterCardProps {
   right_product_image: string;
   right_product_name: string;
   type: keyof typeof TabType;
+  actions?: React.ReactNode;
 }
 
 export const BarterCard: React.FC<BarterCardProps> = (props) => {
@@ -25,6 +26,7 @@ export const BarterCard: React.FC<BarterCardProps> = (props) => {
     right_product_image,
     right_product_name,
     type,
+    actions,
   } = props;
 
   return (
@@ -78,6 +80,7 @@ export const BarterCard: React.FC<BarterCardProps> = (props) => {
           <p className="mt-2 text-gray-500">{right_product_name}</p>
         </div>
       </div>
+      {actions}
     </div>
   );
 };

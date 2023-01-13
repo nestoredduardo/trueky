@@ -1,3 +1,4 @@
+import z from "zod";
 import { TRPCError } from "@trpc/server";
 
 import { router, protectedProcedure } from "../trpc";
@@ -55,6 +56,16 @@ export const matchRouter = router({
             product_one_like: true,
             product_two_like: true,
             match: true,
+            product_one: {
+              update: {
+                status: "MATCHED",
+              },
+            },
+            product_two: {
+              update: {
+                status: "MATCHED",
+              },
+            },
           },
           select: {
             id: true,
@@ -325,4 +336,83 @@ export const matchRouter = router({
       data: match,
     };
   }),
+  acceptMatch: protectedProcedure
+    .input(z.object({ match_id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const match = await ctx.prisma.match.update({
+        where: {
+          id: input.match_id,
+        },
+        data: {
+          product_two_like: true,
+          match: true,
+          product_one: {
+            update: {
+              status: "MATCHED",
+            },
+          },
+          product_two: {
+            update: {
+              status: "MATCHED",
+            },
+          },
+        },
+        select: {
+          id: true,
+          product_one: {
+            select: {
+              id: true,
+              name: true,
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                },
+              },
+            },
+          },
+          product_two: {
+            select: {
+              id: true,
+              name: true,
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (!match)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "No se pudo aceptar el match",
+        });
+
+      await sendMail({
+        subject: "Match",
+        to: "nmamanipantoja@gmail.com",
+        component: (
+          <BasicEmail
+            person_1={match.product_one.user.name}
+            person_2={match.product_two.user.name}
+            person_1_email={match.product_one.user.email}
+            person_2_email={match.product_two.user.email}
+            product_1_name={match.product_one.name}
+            product_2_name={match.product_two.name}
+          />
+        ),
+      });
+
+      return {
+        status: 200,
+        message: "Match aceptado con éxito",
+        data: match,
+      };
+    }),
 });
